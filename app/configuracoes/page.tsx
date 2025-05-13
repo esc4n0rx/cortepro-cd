@@ -3,7 +3,6 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { FileSpreadsheet, Info, Loader2, Upload } from "lucide-react"
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -12,6 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import ArquivoUpload from "@/components/arquivo-upload"
+
 
 export default function Configuracoes() {
   const [uploading, setUploading] = useState<string | null>(null)
@@ -21,7 +22,6 @@ export default function Configuracoes() {
     setUploading(fileType)
     setUploadProgress(0)
 
-    // Simulando progresso de upload
     const interval = setInterval(() => {
       setUploadProgress((prev) => {
         if (prev >= 100) {
@@ -67,31 +67,13 @@ export default function Configuracoes() {
                 <CardDescription>Faça upload do arquivo de estoque atual</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Label htmlFor="estoque">Arquivo CSV/Excel</Label>
-                  <div className="flex gap-2">
-                    <Input id="estoque" type="file" accept=".csv,.xlsx,.xls" />
-                    <Button size="sm" onClick={() => handleUpload("estoque")} disabled={uploading === "estoque"}>
-                      {uploading === "estoque" ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <Upload className="h-4 w-4" />
-                      )}
-                    </Button>
-                  </div>
-                </div>
-                {uploading === "estoque" && (
-                  <div className="mt-2">
-                    <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
-                      <motion.div
-                        className="h-full bg-primary"
-                        initial={{ width: "0%" }}
-                        animate={{ width: `${uploadProgress}%` }}
-                      />
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1">{uploadProgress}% concluído</p>
-                  </div>
-                )}
+                <ArquivoUpload 
+                  title="Estoque"
+                  description="Faça upload do arquivo de estoque atual"
+                  icon={<FileSpreadsheet className="h-6 w-6" />}
+                  iconClassName="bg-primary/10 text-primary"
+                  type="estoque"
+                />
               </CardContent>
             </Card>
 
@@ -104,31 +86,13 @@ export default function Configuracoes() {
                 <CardDescription>Faça upload do arquivo de demanda do dia</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Label htmlFor="demanda">Arquivo CSV/Excel</Label>
-                  <div className="flex gap-2">
-                    <Input id="demanda" type="file" accept=".csv,.xlsx,.xls" />
-                    <Button size="sm" onClick={() => handleUpload("demanda")} disabled={uploading === "demanda"}>
-                      {uploading === "demanda" ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <Upload className="h-4 w-4" />
-                      )}
-                    </Button>
-                  </div>
-                </div>
-                {uploading === "demanda" && (
-                  <div className="mt-2">
-                    <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
-                      <motion.div
-                        className="h-full bg-orange-500"
-                        initial={{ width: "0%" }}
-                        animate={{ width: `${uploadProgress}%` }}
-                      />
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1">{uploadProgress}% concluído</p>
-                  </div>
-                )}
+                <ArquivoUpload 
+                  title="Demanda"
+                  description="Faça upload do arquivo de demanda do dia"
+                  icon={<FileSpreadsheet className="h-6 w-6" />}
+                  iconClassName="bg-orange-500/10 text-orange-500"
+                  type="demanda"
+                />
               </CardContent>
             </Card>
 
